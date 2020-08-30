@@ -2,9 +2,6 @@ package com.basejava.lesson1;
 
 import java.util.Scanner;
 
-import static java.lang.Math.*;
-import static java.lang.Math.pow;
-
 public class ArrayStorage {
     Resume[] resumeArr = new Resume[10000];
     Scanner scan = new Scanner(System.in);
@@ -40,7 +37,18 @@ public class ArrayStorage {
         return true;
     }
 
+    public boolean isEmpty() {
+        if (nextId == 0) {
+            System.out.println("The database is empty by now, probably you should add sb at first.\n");
+            return true;
+        }
+        return false;
+    }
+
     public void get() {
+        if (isEmpty()) {
+            return;
+        }
         System.out.print("Print the id-number of the employee, who you would like to read about: ");
         int id = scan.nextInt();
         if (existsElem(id - 1)) {
@@ -49,6 +57,9 @@ public class ArrayStorage {
     }
 
     public void getAll() {
+        if (isEmpty()) {
+            return;
+        }
         for (int i = 0; i < nextId; i++) {
             resumeArr[i].show();
         }
@@ -69,7 +80,7 @@ public class ArrayStorage {
     }
 
     public void size() {
-        System.out.println("Размер " + nextId + "/" + resumeArr.length);
+        System.out.println("The size is " + nextId + "/" + resumeArr.length);
         System.out.println();
     }
 
@@ -81,25 +92,23 @@ public class ArrayStorage {
     }
 
     public void showMenu() {
-        System.out.println("1. Показать базу резюме");
-        System.out.println("2. Показать базу по id");
-        System.out.println("3. Добавить резюме");
-        System.out.println("4. Удалить по индексу");
-        System.out.println("5. Удалить ВСЕ (абсолютно все)");
-        System.out.println("6. Сколько места занято");
-        System.out.println("0. Выход");
+        System.out.println("1. Show the resume storage");
+        System.out.println("2. Show info about a certain employee");
+        System.out.println("3. Add employees");
+        System.out.println("4. Delete one employee");
+        System.out.println("5. Delete all employees");
+        System.out.println("6. Show the size of the database");
+        System.out.println("0. Exit");
         System.out.println();
     }
 
     public void startStorage() {
-        while (true) {
+        int choice;
+        do {
             showMenu();
-            System.out.print("Введите номер: ");
-            int answer = scan.nextInt();
-            if (answer == 0) {
-                break;
-            }
-            switch (answer) {
+            System.out.print("Choose the option: ");
+            choice = scan.nextInt();
+            switch (choice) {
                 case 1:
                     getAll();
                     break;
@@ -117,10 +126,14 @@ public class ArrayStorage {
                     break;
                 case 6:
                     size();
+                case 0:
+                    System.out.println("Thanks for using our database, goodbye!");
                     break;
                 default:
-                    System.out.println("Некорректный пункт меню");
+                    System.out.println("No such option!");
+                    break;
             }
         }
+        while (choice != 0);
     }
 }
